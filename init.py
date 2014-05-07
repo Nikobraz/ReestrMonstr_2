@@ -17,7 +17,7 @@ def timer(f):
     return tmp
 
 
-def getfilelist(mesyaz, den, god):
+def get_filelist(mesyaz, den, god):
     coding = sys.stdin.encoding
     if mesyaz == '':
         mesyaz = '05'
@@ -25,13 +25,13 @@ def getfilelist(mesyaz, den, god):
         den = '05'
     if god == '':
         god = '2014'
-    usluga = raw_input('Введите услугу(А, М, Д):'.decode('UTF-8').encode(coding))
+    usluga = raw_input('Введите услугу(1 Альт, 2 Мастер, 3 Дез):'.decode('UTF-8').encode(coding))
     dpap = god + '_' + mesyaz + '_' + den
-    if usluga == 'А':
+    if usluga == '1':
         papka = 'D:\work\_Chelinvestbank\_Из банка\Архив' '\\' + dpap + '\\' 'альт'
-    elif usluga == 'M':
+    elif usluga == '2':
         papka = 'D:\work\_Chelinvestbank\_Из банка\Архив' '\\' + dpap + '\\' 'мастер'
-    elif usluga == 'Д':
+    elif usluga == '3':
         papka = 'D:\work\_Chelinvestbank\_Из банка\Архив' '\\' + dpap + '\\' 'дез'
     else:
         papka = 'D:\work\_Chelinvestbank\_Из банка\Архив' '\\' + dpap
@@ -45,10 +45,11 @@ def getfilelist(mesyaz, den, god):
 def search_csv(files, search_str):
     for fil in files:
 #        print fil
-        reader = csv.reader(open(fil, "rb"))
+        reader = csv.reader(open(fil, "rb"), delimiter=';')
+
         for row in reader:
             row = "".join(row).decode('cp866')
-            if search_str in row:
+            if search_str.decode('UTF-8').upper() in row:
                 print fil
                 print row
 
@@ -59,9 +60,10 @@ def main():
     mesyaz = raw_input('Введите нужный месяц:'.decode('UTF-8').encode(coding))
     god = raw_input('Введите нужный год:'.decode('UTF-8').encode(coding))
     search_str = raw_input('Введите искомую строку:'.decode('UTF-8').encode(coding))
-    search_csv(getfilelist(mesyaz, den, god), search_str)
+    search_csv(get_filelist(mesyaz, den, god), search_str)
     a = raw_input('')
     print a
 
 if __name__ == "__main__":
-    main()
+    while True:
+        main()
